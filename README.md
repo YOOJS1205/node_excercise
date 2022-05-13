@@ -250,3 +250,36 @@ module.exports = router;
     }
   });
   ```
+
+- ## DataBase
+
+  => 데이터를 구조화하여 저장시켜 놓은 집합체
+
+  - 쿼리 : DB를 관리하기 위한 명령을 하거나 원하는 정보를 요청하는 행위<br>
+  - 스키마 : 어떠한 구조로, 어떤 제약조건으로 저장되어야하는지 정의한 것
+  - NoSQL : Not Only Structured Query Language, 스키마의 한계 보완
+    - 스키마, 관계가 없고, JSON 형태
+
+- ## MongoDB
+
+  - Document Oriented, 스키마 제약x, Node.js와의 호환 good
+
+- ## mongoose
+
+  => MongoDB 안의 데이터를 저장, 생성, 업데이트할 때 쉽게 관리할 수 있게 도와주는 패키지<br>
+  => Document를 조회할 때 자바스크립트 Object로 바꿔주는 역할
+
+  - 스키마 만들기 => 데이터에 제약조건 걸어주기
+
+  ```javascript
+  const mongoose = require("mongoose");
+  const Schema = mongoose.Schema;
+
+  const postSchema = new Schema({
+    title: String,
+    content: String,
+    create_date: { type: Date, default: new Date() },
+  });
+
+  module.exports = mongoose.model("post", postSchema);
+  ```

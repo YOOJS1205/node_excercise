@@ -1,21 +1,27 @@
 var express = require('express');
 var router = express.Router();
 
-const loginCheck = require('../module/loginCheck');
-const upload = require('../module/imageUpload');
+const postModel = require('../model/post');
 
-router.get('/', loginCheck, (req, res) => {
-  res.status(200).json({
-    message: 'login success!!',
+router.post('/', async (req, res) => {
+  const { title, content } = req.body;
+  const post = new postModel({
+    title: title,
+    content: content,
   });
-});
-
-router.post('/upload', upload.single('image'), (req, res) => {
-  const file = req.file;
-  console.log(file);
-  res.status(200).json({
-    message: 'upload success!!',
-  })
+  try {
+    // 실행
+    const result = await post.save();
+    res.status(200).json({
+      message: 'upload success!!',
+      data: result,
+    })
+  } catch (error) {
+    // 실행 에러 발생 시 상황 핸들링
+    res.status(500).json({
+      message: error,
+    })
+  }
 })
 
 module.exports = router;

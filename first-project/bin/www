@@ -7,10 +7,22 @@
 var app = require('../app');
 var debug = require('debug')('first-project:server');
 var http = require('http');
+const dbConfig = require('../config/dbConfig.json');
 
 /**
  * Get port from environment and store in Express.
  */
+const mongoose = require('mongoose');
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => {
+  console.log('Connected to mongodb server!!');
+});
+
+mongoose.connect(
+  `mongodb+srv://Yoojunsang:${dbConfig.pw}@first-project.ypwci.mongodb.net/${dbConfig.name}?retryWrites=true&w=majority`,
+  {useNewUrlParser: true, useUnifiedTopology: true}
+);
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
